@@ -6,14 +6,6 @@
 ::     Manually set RGB values to find the ideal background and text colors.
 ::     VT100 sequence capability is mandatory.
 ::
-:: CONTROLS
-::     A - reduces the selected value by 10
-::     S - reduces the selected value by 1
-::     F - increases the selected value by 1
-::     G - increases the selected value by 10
-::     E - moves the selected value up
-::     D - moves the selected value down
-::
 :: AUTHOR
 ::     sintrode
 ::------------------------------------------------------------------------------
@@ -22,8 +14,8 @@ setlocal enabledelayedexpansion
 echo [?25l
 cls
 
+::Initialization
 set "selected_row=1"
-
 for %%A in (1`7`"RED:  "`0`"40;37"
             2`8`"GREEN:"`0`"40;37"
             3`9`"BLUE: "`0`"40;37"
@@ -37,6 +29,17 @@ for %%A in (1`7`"RED:  "`0`"40;37"
 		set "row[%%B].select_color=%%~F"
 	)
 )
+
+:: Constants (note: case-sensitive)
+set "small_decrement=a"
+set "large_decrement=A"
+set "small_increment=d"
+set "large_increment=D"
+set "select_up=w"
+set "select_down=s"
+set "quit=q"
+set "small_value=1"
+set "large_value=10"
 
 :select_color
 set "row[%selected_row%].select_color=30;47"
@@ -56,12 +59,11 @@ for /L %%A in (1,1,6) do (
 	echo [!row[%%A].line!;5H!row[%%A].label! ^<^< [!row[%%A].select_color!m!row[%%A].display_color![0m ^>^>
 )
 
-%systemroot%\System32\choice.exe /C:AawsdDq /CS /n >nul
-title %errorlevel%
-if "%errorlevel%"=="1" set /a row[%selected_row%].color-=10
-if "%errorlevel%"=="2" set /a row[%selected_row%].color-=1
-if "%errorlevel%"=="5" set /a row[%selected_row%].color+=1
-if "%errorlevel%"=="6" set /a row[%selected_row%].color+=10
+%systemroot%\System32\choice.exe /c:%large_decrement%%small_decrement%%select_up%%select_down%%small_increment%%large_increment%%quit% /CS /n >nul
+if "%errorlevel%"=="1" set /a row[%selected_row%].color-=%large_value%
+if "%errorlevel%"=="2" set /a row[%selected_row%].color-=%small_value%
+if "%errorlevel%"=="5" set /a row[%selected_row%].color+=%small_value%
+if "%errorlevel%"=="6" set /a row[%selected_row%].color+=%large_value%
 if !row[%selected_row%].color! LSS 0 set "row[%selected_row%].color=0"
 if !row[%selected_row%].color! GTR 255 set "row[%selected_row%].color=255"
 if %errorlevel% GEQ 3 if %errorlevel% LEQ 4 set "row[%selected_row%].select_color=40;37"
