@@ -70,6 +70,8 @@ if !row[%selected_row%].color! GTR 255 set "row[%selected_row%].color=255"
 if %errorlevel% GEQ 3 if %errorlevel% LEQ 4 set "row[%selected_row%].select_color=40;37"
 if "%errorlevel%"=="3" set /a selected_row-=1
 if "%errorlevel%"=="4" set /a selected_row+=1
+if %selected_row% LSS 1 set "selected_row=1"
+if %selected_row% GTR 6 set "selected_row=6"
 if "%errorlevel%"=="7" (
 	echo [?25h
 	exit /b
