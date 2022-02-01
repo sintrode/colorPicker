@@ -22,18 +22,14 @@ setlocal enabledelayedexpansion
 echo [?25l
 cls
 
-for %%A in (red green blue) do (
-	set "background_%%A=0"
-	set "text_%%A=255"
-)
 set "selected_row=1"
 
 for %%A in (1`7`"RED:  "`0`"40;37"
             2`8`"GREEN:"`0`"40;37"
-			3`9`"BLUE: "`0`"40;37"
-			4`12`"RED:  "`255`"40;37"
-			5`13`"GREEN:"`255`"40;37"
-			6`14`"BLUE: "`255`"40;37") do (
+            3`9`"BLUE: "`0`"40;37"
+            4`12`"RED:  "`255`"40;37"
+            5`13`"GREEN:"`255`"40;37"
+            6`14`"BLUE: "`255`"40;37") do (
 	for /f "tokens=1-5 delims=`" %%B in ("%%A") do (
 		set "row[%%B].line=%%C"
 		set "row[%%B].label=%%~D"
@@ -60,7 +56,8 @@ for /L %%A in (1,1,6) do (
 	echo [!row[%%A].line!;5H!row[%%A].label! ^<^< [!row[%%A].select_color!m!row[%%A].display_color![0m ^>^>
 )
 
-choice /c:asedfgq /n >nul
+%systemroot%\System32\choice.exe /C:AawsdDq /CS /n >nul
+title %errorlevel%
 if "%errorlevel%"=="1" set /a row[%selected_row%].color-=10
 if "%errorlevel%"=="2" set /a row[%selected_row%].color-=1
 if "%errorlevel%"=="5" set /a row[%selected_row%].color+=1
