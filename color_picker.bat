@@ -16,12 +16,12 @@ cls
 
 ::Initialization
 set "selected_row=1"
-for %%A in (1`7`"RED:  "`0`"40;37"
-            2`8`"GREEN:"`0`"40;37"
-            3`9`"BLUE: "`0`"40;37"
-            4`12`"RED:  "`255`"40;37"
-            5`13`"GREEN:"`255`"40;37"
-            6`14`"BLUE: "`255`"40;37") do (
+for %%A in (1`7`"[31mRED[0m:  "`0`"40;37"
+            2`8`"[32mGREEN[0m:"`0`"40;37"
+            3`9`"[34mBLUE[0m: "`0`"40;37"
+            4`12`"[31mRED[0m:  "`255`"40;37"
+            5`13`"[32mGREEN[0m:"`255`"40;37"
+            6`14`"[34mBLUE[0m: "`255`"40;37") do (
 	for /f "tokens=1-5 delims=`" %%B in ("%%A") do (
 		set "row[%%B].line=%%C"
 		set "row[%%B].label=%%~D"
