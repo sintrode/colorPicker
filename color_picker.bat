@@ -53,7 +53,7 @@ for /L %%A in (1,1,6) do (
 echo [0m[1;1H################################################################
 echo #%bg_color%%fg_color%                     This is sample text.                     [0m#
 echo ################################################################[2B
-echo BACKGROUND[5B[10DTEXT
+echo [2KBACKGROUND - ESC[48;2;%row[1].color%;%row[2].color%;%row[3].color%m[11;1HTEXT - ESC[38;2;%row[4].color%;%row[5].color%;%row[6].color%m
 
 for /L %%A in (1,1,6) do (
 	echo [!row[%%A].line!;5H!row[%%A].label! ^<^< [!row[%%A].select_color!m!row[%%A].display_color![0m ^>^>
